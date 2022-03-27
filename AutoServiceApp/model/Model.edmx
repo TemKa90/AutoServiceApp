@@ -462,9 +462,9 @@
         </EntityType>
         <EntityType Name="Roles">
           <Key>
-            <PropertyRef Name="IdRole" />
+            <PropertyRef Name="idRole" />
           </Key>
-          <Property Name="IdRole" Type="Int32" Nullable="false" />
+          <Property Name="idRole" Type="Int32" Nullable="false" />
           <Property Name="Role" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
         </EntityType>
@@ -492,13 +492,13 @@
         </EntityType>
         <EntityType Name="Users">
           <Key>
-            <PropertyRef Name="IdUser" />
+            <PropertyRef Name="idUser" />
           </Key>
-          <Property Name="IdUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="IdRole" Type="Int32" />
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idRole" Type="Int32" />
           <NavigationProperty Name="Client" Relationship="Self.FK_Client_Users" FromRole="Users" ToRole="Client" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
         </EntityType>
@@ -555,7 +555,7 @@
           <End Role="Client" Type="Self.Client" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
-              <PropertyRef Name="IdUser" />
+              <PropertyRef Name="idUser" />
             </Principal>
             <Dependent Role="Client">
               <PropertyRef Name="IdUser" />
@@ -639,10 +639,10 @@
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Roles">
-              <PropertyRef Name="IdRole" />
+              <PropertyRef Name="idRole" />
             </Principal>
             <Dependent Role="Users">
-              <PropertyRef Name="IdRole" />
+              <PropertyRef Name="idRole" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -822,7 +822,7 @@
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="AutoServiceModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
-                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+                <ScalarProperty Name="idRole" ColumnName="IdRole" />
                 <ScalarProperty Name="Role" ColumnName="Role" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -852,11 +852,11 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="AutoServiceModel.Users">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="IdUser" ColumnName="IdUser" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="IdRole" ColumnName="IdRole" />
+                <ScalarProperty Name="idUser" ColumnName="IdUser" />
+                <ScalarProperty Name="login" ColumnName="Login" />
+                <ScalarProperty Name="password" ColumnName="Password" />
+                <ScalarProperty Name="email" ColumnName="Email" />
+                <ScalarProperty Name="idRole" ColumnName="IdRole" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -20,9 +20,14 @@ namespace AutoServiceApp
     /// </summary>
     public partial class RegPage : Page
     {
+        ApplicationContext db;
+
+
         public RegPage()
         {
             InitializeComponent();
+
+            db = new ApplicationContext();
         }
         private void Reg_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -70,8 +75,11 @@ namespace AutoServiceApp
             {
                 textBoxEmail.ToolTip = null;
                 textBoxEmail.Background = Brushes.Transparent;
-            }
 
+            }
+            User user = new User(login, email, pass1);
+            db.Users.Add(user);
+            db.SaveChanges();
         }
     }
 }
