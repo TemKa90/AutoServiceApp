@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoServiceApp.View.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,24 +21,36 @@ namespace AutoServiceApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        private RegAndAuthPage regAndAuthPage;
+        private RegPage regPage;
+        private AuthPage authPage;
+
         public MainWindow()
         {
             InitializeComponent();
-        }
-        private RegPage regPage;
-        private void Reg_Button(object sender, RoutedEventArgs e)
-        {
-            if (regPage == null)
+            if (regAndAuthPage == null)
             {
-                regPage = new RegPage();
+                regAndAuthPage = new RegAndAuthPage();
             }
-            this.Content = regPage;
+            RegOrAuth.Content = regAndAuthPage;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
+        //private void Reg_Button(object sender, RoutedEventArgs e)
+        //{
+        //    if (regPage == null)
+        //    {
+        //        regPage = new RegPage();
+        //    }
+        //    MainFrame.Content = regPage;
+        //}
 
-        }
+        //private void Auth_Button(object sender, RoutedEventArgs e)
+        //{
+        //    if (authPage == null)
+        //    {
+        //        authPage = new AuthPage();
+        //    }
+        //    MainFrame.Content = authPage;
+        //}
     }
 }

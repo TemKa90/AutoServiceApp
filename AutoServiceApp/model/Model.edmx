@@ -4,7 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище AutoServiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище AutoServiceModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AttachedProduct">
+          <Key>
+            <PropertyRef Name="MainProductID" />
+            <PropertyRef Name="AttachedProductID" />
+          </Key>
+          <Property Name="MainProductID" Type="int" Nullable="false" />
+          <Property Name="AttachedProductID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Auto">
           <Key>
             <PropertyRef Name="IdAuto" />
@@ -36,12 +44,45 @@
           <Property Name="Discription" Type="text" />
           <Property Name="IdUser" Type="int" />
         </EntityType>
+        <EntityType Name="ClientService">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="ServiceID" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar(max)" />
+        </EntityType>
         <EntityType Name="Country">
           <Key>
             <PropertyRef Name="IdCountry" />
           </Key>
           <Property Name="IdCountry" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Country" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="DocumentByService">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClientServiceID" Type="int" Nullable="false" />
+          <Property Name="DocumentPath" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="StartDate" Type="date" />
         </EntityType>
         <EntityType Name="Master">
           <Key>
@@ -80,6 +121,36 @@
           <Property Name="IdMark" Type="int" />
           <Property Name="IdType" Type="int" />
         </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="MainImagePath" Type="nvarchar" MaxLength="1000" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ManufacturerID" Type="int" />
+        </EntityType>
+        <EntityType Name="ProductPhoto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductSale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleDate" Type="datetime" Nullable="false" />
+          <Property Name="ProductID" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="ClientServiceID" Type="int" />
+        </EntityType>
         <EntityType Name="Repair">
           <Key>
             <PropertyRef Name="IdRepair" />
@@ -105,6 +176,26 @@
           <Property Name="IdRole" Type="int" Nullable="false" />
           <Property Name="Role" Type="text" />
         </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Cost" Type="money" Nullable="false" />
+          <Property Name="DurationInSeconds" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Discount" Type="float" />
+          <Property Name="MainImagePath" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="ServicePhoto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServiceID" Type="int" Nullable="false" />
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
         <EntityType Name="SparePart">
           <Key>
             <PropertyRef Name="IdSparePart" />
@@ -125,6 +216,22 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Color" Type="nchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TagOfClient">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="ClientID" Type="int" Nullable="false" />
+          <Property Name="TagID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="IdUser" />
@@ -135,6 +242,18 @@
           <Property Name="Email" Type="text" />
           <Property Name="IdRole" Type="int" />
         </EntityType>
+        <Association Name="FK_AttachedProduct_Product1">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="AttachedProduct" Type="Self.AttachedProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttachedProduct">
+              <PropertyRef Name="AttachedProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Auto_Client">
           <End Role="Client" Type="Self.Client" Multiplicity="1" />
           <End Role="Auto" Type="Self.Auto" Multiplicity="*" />
@@ -168,6 +287,30 @@
             </Principal>
             <Dependent Role="Client">
               <PropertyRef Name="IdUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientService_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ClientService" Type="Self.ClientService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClientService">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentByService_ClientService">
+          <End Role="ClientService" Type="Self.ClientService" Multiplicity="1" />
+          <End Role="DocumentByService" Type="Self.DocumentByService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientService">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DocumentByService">
+              <PropertyRef Name="ClientServiceID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -219,6 +362,54 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Product_Manufacturer">
+          <End Role="Manufacturer" Type="Self.Manufacturer" Multiplicity="0..1" />
+          <End Role="Product" Type="Self.Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ManufacturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductPhoto_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductPhoto" Type="Self.ProductPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductPhoto">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSale_ClientService">
+          <End Role="ClientService" Type="Self.ClientService" Multiplicity="0..1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientService">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ClientServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSale_Product">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ProductSale" Type="Self.ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Repair_Auto">
           <End Role="Auto" Type="Self.Auto" Multiplicity="0..1" />
           <End Role="Repair" Type="Self.Repair" Multiplicity="*" />
@@ -255,6 +446,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ServicePhoto_Service">
+          <End Role="Service" Type="Self.Service" Multiplicity="1" />
+          <End Role="ServicePhoto" Type="Self.ServicePhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ServicePhoto">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SparePart_Country">
           <End Role="Country" Type="Self.Country" Multiplicity="0..1" />
           <End Role="SparePart" Type="Self.SparePart" Multiplicity="*" />
@@ -264,6 +467,18 @@
             </Principal>
             <Dependent Role="SparePart">
               <PropertyRef Name="IdCountry" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagOfClient_Tag">
+          <End Role="Tag" Type="Self.Tag" Multiplicity="1" />
+          <End Role="TagOfClient" Type="Self.TagOfClient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TagOfClient">
+              <PropertyRef Name="TagID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -280,20 +495,36 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище AutoServiceModelContainer">
+          <EntitySet Name="AttachedProduct" EntityType="Self.AttachedProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Auto" EntityType="Self.Auto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AutoType" EntityType="Self.AutoType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientService" EntityType="Self.ClientService" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Country" EntityType="Self.Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentByService" EntityType="Self.DocumentByService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manufacturer" EntityType="Self.Manufacturer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Master" EntityType="Self.Master" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MoreParts" EntityType="Self.MoreParts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NameMark" EntityType="Self.NameMark" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NameModel" EntityType="Self.NameModel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductPhoto" EntityType="Self.ProductPhoto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductSale" EntityType="Self.ProductSale" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Repair" EntityType="Self.Repair" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RepairCategory" EntityType="Self.RepairCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Service" EntityType="Self.Service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ServicePhoto" EntityType="Self.ServicePhoto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SparePart" EntityType="Self.SparePart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TagOfClient" EntityType="Self.TagOfClient" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AttachedProduct_Product1" Association="Self.FK_AttachedProduct_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="AttachedProduct" EntitySet="AttachedProduct" />
+          </AssociationSet>
           <AssociationSet Name="FK_Auto_Client" Association="Self.FK_Auto_Client">
             <End Role="Client" EntitySet="Client" />
             <End Role="Auto" EntitySet="Auto" />
@@ -305,6 +536,14 @@
           <AssociationSet Name="FK_Client_Users" Association="Self.FK_Client_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientService_Service" Association="Self.FK_ClientService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ClientService" EntitySet="ClientService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentByService_ClientService" Association="Self.FK_DocumentByService_ClientService">
+            <End Role="ClientService" EntitySet="ClientService" />
+            <End Role="DocumentByService" EntitySet="DocumentByService" />
           </AssociationSet>
           <AssociationSet Name="FK_MoreParts_Repair" Association="Self.FK_MoreParts_Repair">
             <End Role="Repair" EntitySet="Repair" />
@@ -322,6 +561,22 @@
             <End Role="NameMark" EntitySet="NameMark" />
             <End Role="NameModel" EntitySet="NameModel" />
           </AssociationSet>
+          <AssociationSet Name="FK_Product_Manufacturer" Association="Self.FK_Product_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductPhoto_Product" Association="Self.FK_ProductPhoto_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductPhoto" EntitySet="ProductPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_ClientService" Association="Self.FK_ProductSale_ClientService">
+            <End Role="ClientService" EntitySet="ClientService" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_Product" Association="Self.FK_ProductSale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
           <AssociationSet Name="FK_Repair_Auto" Association="Self.FK_Repair_Auto">
             <End Role="Auto" EntitySet="Auto" />
             <End Role="Repair" EntitySet="Repair" />
@@ -334,17 +589,24 @@
             <End Role="RepairCategory" EntitySet="RepairCategory" />
             <End Role="Repair" EntitySet="Repair" />
           </AssociationSet>
+          <AssociationSet Name="FK_ServicePhoto_Service" Association="Self.FK_ServicePhoto_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServicePhoto" EntitySet="ServicePhoto" />
+          </AssociationSet>
           <AssociationSet Name="FK_SparePart_Country" Association="Self.FK_SparePart_Country">
             <End Role="Country" EntitySet="Country" />
             <End Role="SparePart" EntitySet="SparePart" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagOfClient_Tag" Association="Self.FK_TagOfClient_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="TagOfClient" EntitySet="TagOfClient" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AutoServiceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -709,7 +971,288 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <EntitySet Name="AttachedProduct" EntityType="AutoServiceModel.AttachedProduct" />
+          <EntitySet Name="ClientService" EntityType="AutoServiceModel.ClientService" />
+          <EntitySet Name="DocumentByService" EntityType="AutoServiceModel.DocumentByService" />
+          <EntitySet Name="Gender" EntityType="AutoServiceModel.Gender" />
+          <EntitySet Name="Manufacturer" EntityType="AutoServiceModel.Manufacturer" />
+          <EntitySet Name="Product" EntityType="AutoServiceModel.Product" />
+          <EntitySet Name="ProductPhoto" EntityType="AutoServiceModel.ProductPhoto" />
+          <EntitySet Name="ProductSale" EntityType="AutoServiceModel.ProductSale" />
+          <EntitySet Name="Service" EntityType="AutoServiceModel.Service" />
+          <EntitySet Name="ServicePhoto" EntityType="AutoServiceModel.ServicePhoto" />
+          <EntitySet Name="Tag" EntityType="AutoServiceModel.Tag" />
+          <EntitySet Name="TagOfClient" EntityType="AutoServiceModel.TagOfClient" />
+          <AssociationSet Name="FK_AttachedProduct_Product1" Association="AutoServiceModel.FK_AttachedProduct_Product1">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="AttachedProduct" EntitySet="AttachedProduct" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientService_Service" Association="AutoServiceModel.FK_ClientService_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ClientService" EntitySet="ClientService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentByService_ClientService" Association="AutoServiceModel.FK_DocumentByService_ClientService">
+            <End Role="ClientService" EntitySet="ClientService" />
+            <End Role="DocumentByService" EntitySet="DocumentByService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_ClientService" Association="AutoServiceModel.FK_ProductSale_ClientService">
+            <End Role="ClientService" EntitySet="ClientService" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_Manufacturer" Association="AutoServiceModel.FK_Product_Manufacturer">
+            <End Role="Manufacturer" EntitySet="Manufacturer" />
+            <End Role="Product" EntitySet="Product" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductPhoto_Product" Association="AutoServiceModel.FK_ProductPhoto_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductPhoto" EntitySet="ProductPhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductSale_Product" Association="AutoServiceModel.FK_ProductSale_Product">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ProductSale" EntitySet="ProductSale" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ServicePhoto_Service" Association="AutoServiceModel.FK_ServicePhoto_Service">
+            <End Role="Service" EntitySet="Service" />
+            <End Role="ServicePhoto" EntitySet="ServicePhoto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TagOfClient_Tag" Association="AutoServiceModel.FK_TagOfClient_Tag">
+            <End Role="Tag" EntitySet="Tag" />
+            <End Role="TagOfClient" EntitySet="TagOfClient" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="AttachedProduct">
+          <Key>
+            <PropertyRef Name="MainProductID" />
+            <PropertyRef Name="AttachedProductID" />
+          </Key>
+          <Property Name="MainProductID" Type="Int32" Nullable="false" />
+          <Property Name="AttachedProductID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product" Relationship="AutoServiceModel.FK_AttachedProduct_Product1" FromRole="AttachedProduct" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ClientService">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Service" Relationship="AutoServiceModel.FK_ClientService_Service" FromRole="ClientService" ToRole="Service" />
+          <NavigationProperty Name="DocumentByService" Relationship="AutoServiceModel.FK_DocumentByService_ClientService" FromRole="ClientService" ToRole="DocumentByService" />
+          <NavigationProperty Name="ProductSale" Relationship="AutoServiceModel.FK_ProductSale_ClientService" FromRole="ClientService" ToRole="ProductSale" />
+        </EntityType>
+        <EntityType Name="DocumentByService">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientServiceID" Type="Int32" Nullable="false" />
+          <Property Name="DocumentPath" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientService" Relationship="AutoServiceModel.FK_DocumentByService_ClientService" FromRole="DocumentByService" ToRole="ClientService" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Manufacturer">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Product" Relationship="AutoServiceModel.FK_Product_Manufacturer" FromRole="Manufacturer" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MainImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ManufacturerID" Type="Int32" />
+          <NavigationProperty Name="AttachedProduct" Relationship="AutoServiceModel.FK_AttachedProduct_Product1" FromRole="Product" ToRole="AttachedProduct" />
+          <NavigationProperty Name="Manufacturer" Relationship="AutoServiceModel.FK_Product_Manufacturer" FromRole="Product" ToRole="Manufacturer" />
+          <NavigationProperty Name="ProductPhoto" Relationship="AutoServiceModel.FK_ProductPhoto_Product" FromRole="Product" ToRole="ProductPhoto" />
+          <NavigationProperty Name="ProductSale" Relationship="AutoServiceModel.FK_ProductSale_Product" FromRole="Product" ToRole="ProductSale" />
+        </EntityType>
+        <EntityType Name="ProductPhoto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Product" Relationship="AutoServiceModel.FK_ProductPhoto_Product" FromRole="ProductPhoto" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="ProductSale">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProductID" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="ClientServiceID" Type="Int32" />
+          <NavigationProperty Name="ClientService" Relationship="AutoServiceModel.FK_ProductSale_ClientService" FromRole="ProductSale" ToRole="ClientService" />
+          <NavigationProperty Name="Product" Relationship="AutoServiceModel.FK_ProductSale_Product" FromRole="ProductSale" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="DurationInSeconds" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Discount" Type="Double" />
+          <Property Name="MainImagePath" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientService" Relationship="AutoServiceModel.FK_ClientService_Service" FromRole="Service" ToRole="ClientService" />
+          <NavigationProperty Name="ServicePhoto" Relationship="AutoServiceModel.FK_ServicePhoto_Service" FromRole="Service" ToRole="ServicePhoto" />
+        </EntityType>
+        <EntityType Name="ServicePhoto">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServiceID" Type="Int32" Nullable="false" />
+          <Property Name="PhotoPath" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Service" Relationship="AutoServiceModel.FK_ServicePhoto_Service" FromRole="ServicePhoto" ToRole="Service" />
+        </EntityType>
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="6" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="TagOfClient" Relationship="AutoServiceModel.FK_TagOfClient_Tag" FromRole="Tag" ToRole="TagOfClient" />
+        </EntityType>
+        <EntityType Name="TagOfClient">
+          <Key>
+            <PropertyRef Name="ClientID" />
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="ClientID" Type="Int32" Nullable="false" />
+          <Property Name="TagID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Tag" Relationship="AutoServiceModel.FK_TagOfClient_Tag" FromRole="TagOfClient" ToRole="Tag" />
+        </EntityType>
+        <Association Name="FK_AttachedProduct_Product1">
+          <End Type="AutoServiceModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AutoServiceModel.AttachedProduct" Role="AttachedProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AttachedProduct">
+              <PropertyRef Name="AttachedProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientService_Service">
+          <End Type="AutoServiceModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="AutoServiceModel.ClientService" Role="ClientService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ClientService">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentByService_ClientService">
+          <End Type="AutoServiceModel.ClientService" Role="ClientService" Multiplicity="1" />
+          <End Type="AutoServiceModel.DocumentByService" Role="DocumentByService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientService">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DocumentByService">
+              <PropertyRef Name="ClientServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSale_ClientService">
+          <End Type="AutoServiceModel.ClientService" Role="ClientService" Multiplicity="0..1" />
+          <End Type="AutoServiceModel.ProductSale" Role="ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientService">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ClientServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_Manufacturer">
+          <End Type="AutoServiceModel.Manufacturer" Role="Manufacturer" Multiplicity="0..1" />
+          <End Type="AutoServiceModel.Product" Role="Product" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manufacturer">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Product">
+              <PropertyRef Name="ManufacturerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductPhoto_Product">
+          <End Type="AutoServiceModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AutoServiceModel.ProductPhoto" Role="ProductPhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductPhoto">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductSale_Product">
+          <End Type="AutoServiceModel.Product" Role="Product" Multiplicity="1" />
+          <End Type="AutoServiceModel.ProductSale" Role="ProductSale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ProductSale">
+              <PropertyRef Name="ProductID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ServicePhoto_Service">
+          <End Type="AutoServiceModel.Service" Role="Service" Multiplicity="1" />
+          <End Type="AutoServiceModel.ServicePhoto" Role="ServicePhoto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Service">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ServicePhoto">
+              <PropertyRef Name="ServiceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TagOfClient_Tag">
+          <End Type="AutoServiceModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="AutoServiceModel.TagOfClient" Role="TagOfClient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="TagOfClient">
+              <PropertyRef Name="TagID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -857,6 +1400,123 @@
                 <ScalarProperty Name="password" ColumnName="Password" />
                 <ScalarProperty Name="email" ColumnName="Email" />
                 <ScalarProperty Name="idRole" ColumnName="IdRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AttachedProduct">
+            <EntityTypeMapping TypeName="AutoServiceModel.AttachedProduct">
+              <MappingFragment StoreEntitySet="AttachedProduct">
+                <ScalarProperty Name="AttachedProductID" ColumnName="AttachedProductID" />
+                <ScalarProperty Name="MainProductID" ColumnName="MainProductID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientService">
+            <EntityTypeMapping TypeName="AutoServiceModel.ClientService">
+              <MappingFragment StoreEntitySet="ClientService">
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentByService">
+            <EntityTypeMapping TypeName="AutoServiceModel.DocumentByService">
+              <MappingFragment StoreEntitySet="DocumentByService">
+                <ScalarProperty Name="DocumentPath" ColumnName="DocumentPath" />
+                <ScalarProperty Name="ClientServiceID" ColumnName="ClientServiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gender">
+            <EntityTypeMapping TypeName="AutoServiceModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Manufacturer">
+            <EntityTypeMapping TypeName="AutoServiceModel.Manufacturer">
+              <MappingFragment StoreEntitySet="Manufacturer">
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product">
+            <EntityTypeMapping TypeName="AutoServiceModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="ManufacturerID" ColumnName="ManufacturerID" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="MainImagePath" ColumnName="MainImagePath" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductPhoto">
+            <EntityTypeMapping TypeName="AutoServiceModel.ProductPhoto">
+              <MappingFragment StoreEntitySet="ProductPhoto">
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductSale">
+            <EntityTypeMapping TypeName="AutoServiceModel.ProductSale">
+              <MappingFragment StoreEntitySet="ProductSale">
+                <ScalarProperty Name="ClientServiceID" ColumnName="ClientServiceID" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductID" ColumnName="ProductID" />
+                <ScalarProperty Name="SaleDate" ColumnName="SaleDate" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Service">
+            <EntityTypeMapping TypeName="AutoServiceModel.Service">
+              <MappingFragment StoreEntitySet="Service">
+                <ScalarProperty Name="MainImagePath" ColumnName="MainImagePath" />
+                <ScalarProperty Name="Discount" ColumnName="Discount" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="DurationInSeconds" ColumnName="DurationInSeconds" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ServicePhoto">
+            <EntityTypeMapping TypeName="AutoServiceModel.ServicePhoto">
+              <MappingFragment StoreEntitySet="ServicePhoto">
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="ServiceID" ColumnName="ServiceID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tag">
+            <EntityTypeMapping TypeName="AutoServiceModel.Tag">
+              <MappingFragment StoreEntitySet="Tag">
+                <ScalarProperty Name="Color" ColumnName="Color" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TagOfClient">
+            <EntityTypeMapping TypeName="AutoServiceModel.TagOfClient">
+              <MappingFragment StoreEntitySet="TagOfClient">
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

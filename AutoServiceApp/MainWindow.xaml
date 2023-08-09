@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AutoServiceApp"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="MainWindow" Height="600" Width="1000">
+        Title="MainWindow" Height="600" Width="1000" MinWidth="900">
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="0.8*"></RowDefinition>
@@ -17,8 +17,8 @@
             <ColumnDefinition Width="2.3*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" Text="Auto Service" FontSize="30" FontWeight="Bold"/>
-        <Button Grid.Column="0" Grid.Row="1" Content="Объединение трех столбцов" Grid.ColumnSpan="3"  />
-        <Button Click="Reg_Button" Grid.Column="1" Grid.Row="0" Content="Регистрация" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFlatButton}" Cursor="Hand" />
-        <Button Margin="0 0 5 0" Grid.Column="1" Grid.Row="0" Content="Вход" HorizontalAlignment="Right" Style="{StaticResource MaterialDesignFlatButton}"/>
+        <Frame NavigationUIVisibility="Hidden" x:Name="MainFrame" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Frame NavigationUIVisibility="Hidden" x:Name="RegOrAuth" Grid.Row="0" Grid.Column="2"/>
+        
     </Grid>
 </Window>

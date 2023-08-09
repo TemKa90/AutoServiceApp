@@ -1,4 +1,4 @@
-﻿// Создание кода T4 для модели "D:\vsApp\AutoServiceApp\AutoServiceApp\model\Model.edmx" включено. 
+﻿// Создание кода T4 для модели "C:\Users\311-8(student)\Desktop\AutoServiceApp\AutoServiceApp\model\Model.edmx" включено. 
 // Чтобы включить формирование кода прежних версий, измените значение свойства "Стратегия создания кода" конструктора
 // на "Legacy ObjectContext". Это свойство доступно в окне "Свойства", если модель
 // открыта в конструкторе.
